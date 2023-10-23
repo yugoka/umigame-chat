@@ -1,5 +1,7 @@
 export type NewMessage = {
+  type: "text";
   text: string;
+  sender: "user" | "ai";
   createdAt: Date;
 };
 

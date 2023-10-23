@@ -8,7 +8,7 @@ export default function Chat() {
   const { messages, send } = useChat();
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-screen flex-col">
       <ChatLogArea messages={messages} />
       <InputArea sendMessage={send} />
     </div>

@@ -1,5 +1,6 @@
 "use client";
 import { ChatMessage } from "@/types/chat";
+import MessageBox from "./MessageBox";
 
 type Props = {
   messages: ChatMessage[];
@@ -7,11 +8,9 @@ type Props = {
 
 export default function ChatLogArea({ messages }: Props) {
   return (
-    <div className="grow">
+    <div className="grow shrink overflow-scroll">
       {messages.map((message) => (
-        <div key={message.id} className="m-5 shadow">
-          {message.text}
-        </div>
+        <MessageBox key={message.id} message={message} />
       ))}
     </div>
   );

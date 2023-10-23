@@ -11,7 +11,9 @@ export default function InputArea({ sendMessage }: Props) {
 
   const handleSubmit = () => {
     const newMessage: NewMessage = {
+      type: "text",
       text: inputText,
+      sender: "user",
       createdAt: new Date(),
     };
     sendMessage(newMessage);
@@ -19,7 +21,7 @@ export default function InputArea({ sendMessage }: Props) {
   };
 
   return (
-    <div>
+    <div className="shrink-0 m-3">
       <TextInput
         inputText={inputText}
         setInputText={setInputText}

@@ -19,7 +19,7 @@ export default function TextInput({
   };
 
   return (
-    <div className="p-5">
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           className="shadow-lg appearance-none border rounded-md w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
