@@ -5,12 +5,12 @@ import InputArea from "./input/InputArea";
 import { useChat } from "@/hooks/useChat";
 
 export default function Chat() {
-  const { messages, send } = useChat();
+  const { messages, send, isWaiting } = useChat();
 
   return (
     <div className="flex h-screen flex-col">
       <ChatLogArea messages={messages} />
-      <InputArea sendMessage={send} />
+      <InputArea isWaiting={isWaiting} sendMessage={send} />
     </div>
   );
 }

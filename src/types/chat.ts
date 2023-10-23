@@ -6,5 +6,5 @@ export type NewMessage = {
 };
 
 export type ChatMessage = NewMessage & {
-  id: number;
+  id: string;
 };

@@ -4,9 +4,10 @@ import TextInput from "./TextInput";
 import React from "react";
 type Props = {
   sendMessage: (message: NewMessage) => void;
+  isWaiting: boolean;
 };
 
-export default function InputArea({ sendMessage }: Props) {
+export default function InputArea({ sendMessage, isWaiting }: Props) {
   const [inputText, setInputText] = React.useState<string>("");
 
   const handleSubmit = () => {
@@ -26,6 +27,7 @@ export default function InputArea({ sendMessage }: Props) {
         inputText={inputText}
         setInputText={setInputText}
         onSubmit={handleSubmit}
+        isWaiting={isWaiting}
       />
     </div>
   );
