@@ -1,4 +1,6 @@
-import { ChatMessage, NewMessage } from "@/types/chat";
+import * as dotenv from "dotenv";
+dotenv.config();
+import { NewMessage } from "@/types/chat";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,6 +12,8 @@ export async function GET(
   }
 ) {
   const messageText = request.nextUrl.searchParams.get("text");
+  const questionText = request.nextUrl.searchParams.get("question");
+  const truthText = request.nextUrl.searchParams.get("truth");
 
   const responseMessage: NewMessage = {
     type: "text",
