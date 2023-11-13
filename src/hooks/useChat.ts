@@ -11,7 +11,24 @@ const ERROR_MESSAGE: NewMessage = {
 };
 
 export const useChat = () => {
-  const [messages, setMessages] = React.useState<ChatMessage[]>([]);
+  const [messages, setMessages] = React.useState<ChatMessage[]>([
+    {
+      id: "question",
+      type: "text",
+      sender: "ai",
+      text: `「タクシー運転手をしている森田さん。ある時森田さんは、一方通行の道を逆方向に走っていました。パトロール中の警察官に見られてしまいましたが、怒られませんでした。」
+
+        なぜでしょうか？`,
+      createdAt: new Date(),
+    },
+    {
+      id: "start-message",
+      type: "text",
+      sender: "ai",
+      text: `「はい」「いいえ」で答えられる質問で推理してください！`,
+      createdAt: new Date(),
+    },
+  ]);
   const [isWaiting, setIsWaiting] = React.useState<boolean>(false);
 
   // メッセージ送信 ＆ 返答を待つ
@@ -45,6 +62,10 @@ export const useChat = () => {
     const response = await axios.get("/api/chat", {
       params: {
         text: message.text,
+        question: `「タクシー運転手をしている森田さん。ある時森田さんは、一方通行の道を逆方向に走っていました。パトロール中の警察官に見られてしまいましたが、怒られませんでした。」
+
+        なぜでしょうか？`,
+        truth: `タクシー運転手さんは車に乗っておらず、一方通行の道を徒歩で逆方向に進んでいただけだったのです。車が一方通行でも、歩きならば関係ありませんよね。「タクシー運転手」というと車に乗っているとイメージしてしまいますが、歩くときだってあるはずです。`,
       },
     });
 
