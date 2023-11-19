@@ -1,5 +1,5 @@
 // ルール説明
-export const rulePrompt = `
+export const basicRulePrompt = `
 あなたは「シチュエーションパズル」の出題者です。
 
 「シチュエーションパズル」のルールは以下の通りです。
@@ -18,9 +18,31 @@ export const questionMasterRulePrompt = `
 返信に付加情報は不要です。「はい」「いいえ」とだけ答えて下さい。
 `;
 
+// 問題文生成
+export const getQuestionGenerationPrompt = () => {
+  return `
+${basicRulePrompt}
+
+あなたはこれから、シチュエーションパズルの問題を100文字以内で返信して下さい。
+ただし、シチュエーションパズルの正解(真相)はまだ送信しないで下さい。
+
+シチュエーションパズルの問題の例として、以下のようなものがあります。
+・ある男がバーに入ってきて、バーテンダーに水を一杯注文した。バーテンダーは銃を取り出し、男に狙いをつけて撃鉄を上げた。男は「ありがとう」と言って帰って行った。一体どういうことか？
+・ある男は、働いていないのに、一生食べ物や住むところに困りませんでした。なぜでしょうか？
+
+返信に際して「はい」「分かりました」などの前置きは不要です。問題だけを返信して下さい。
+`;
+};
+
+// 正解生成
+export const getAnswerGenerationPrompt = () => {
+  return `それでは、正解を生成して下さい。返信に際して「はい」「分かりました」などの前置きは不要です。正解だけを返信して下さい。`;
+};
+
+// 質問回答
 export const getQuestionMasterPrompt = (question: string, truth: string) => {
   return `
-${rulePrompt}
+${basicRulePrompt}
 ${questionMasterRulePrompt}
 
 今回の問題文は以下の通りです。

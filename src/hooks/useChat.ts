@@ -2,6 +2,7 @@ import { ChatMessage, NewMessage } from "@/types/chat";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import React from "react";
+import { QuestionContext } from "@/types/question";
 
 const ERROR_MESSAGE: NewMessage = {
   sender: "ai",
@@ -13,21 +14,20 @@ const ERROR_MESSAGE: NewMessage = {
 export const useChat = () => {
   const [messages, setMessages] = React.useState<ChatMessage[]>([
     {
-      id: "question",
-      type: "text",
+      id: "first-message",
       sender: "ai",
-      text: `ある男がバーに入ってきて、バーテンダーに水を一杯注文した。バーテンダーは銃を取り出し、男に狙いをつけて撃鉄を上げた。男は「ありがとう」と言って帰って行った。一体どういうことか？`,
-      createdAt: new Date(),
-    },
-    {
-      id: "start-message",
       type: "text",
-      sender: "ai",
-      text: `「はい」「いいえ」で答えられる質問で推理してください！`,
+      text: "問題文を生成しています...",
       createdAt: new Date(),
     },
   ]);
   const [isWaiting, setIsWaiting] = React.useState<boolean>(false);
+  const [questionContext, setQuestionContext] = React.useState<QuestionContext>(
+    {
+      question: "",
+      truth: "",
+    }
+  );
 
   // メッセージ送信 ＆ 返答を待つ
   const send = async (newMessage: NewMessage) => {
@@ -60,13 +60,44 @@ export const useChat = () => {
     const response = await axios.get("/api/chat", {
       params: {
         text: message.text,
-        question: `ある男がバーに入ってきて、バーテンダーに水を一杯注文した。バーテンダーは銃を取り出し、男に狙いをつけて撃鉄を上げた。男は「ありがとう」と言って帰って行った。一体どういうことか？`,
-        truth: `男はしゃっくりをしていて、水を注文した。バーテンダーはしゃっくりの声を聞いて状況を知り、手っ取り早い方法として、銃で男を驚かしてしゃっくりを止めた。男は驚いたが、しゃっくりが止まったので喜んだ。そして水を飲む必要も無くなった。`,
+        question: questionContext.question,
+        truth: questionContext.truth,
       },
     });
 
     return response.data;
   };
+
+  const getQuestionContext = async (): Promise<QuestionContext> => {
+    const response = await axios.get("/api/new-question");
+    return response.data;
+  };
+
+  // 最初の1メッセージ
+  React.useEffect(() => {
+    let ignore = false;
+
+    setIsWaiting(true);
+
+    getQuestionContext().then((questionContext) => {
+      if (!ignore) {
+        addMessage({
+          sender: "ai",
+          type: "text",
+          text: questionContext.question,
+          createdAt: new Date(),
+        });
+        setQuestionContext(questionContext);
+        setIsWaiting(false);
+        console.log("quesiton: ", questionContext.question);
+        console.log("truth: ", questionContext.truth);
+      }
+    });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return { send, messages, isWaiting };
 };

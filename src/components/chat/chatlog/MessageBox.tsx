@@ -9,26 +9,22 @@ export default function MessageBox({ message }: Props) {
     <div
       className={`w-full flex ${message.sender === "user" && "justify-end"}`}
     >
-      <p
-        className={`
-        inline-block min-w-[150px] border-4 rounded-xl mx-5 my-3 p-3 relative break-words
-        ${
-          message.sender === "ai"
-            ? `
-            before:absolute before:content-[''] before:-translate-y-1/2
-            before:top-1/2 before:left-0 before:ml-[-20px] before:border-8
-            before:border-l-transparent before:border-t-transparent before:border-b-transparent
-          `
-            : `
-            before:absolute before:content-[''] before:-translate-y-1/2
-            before:top-1/2 before:right-0 before:mr-[-20px] before:border-8
-            before:border-r-transparent before:border-t-transparent before:border-b-transparent
-          `
-        }
+      <div className="flex flex-col mx-5 my-1">
+        <div
+          className={`flex text-sm text-slate-500 mx-1 ${
+            message.sender === "user" && "justify-end"
+          }`}
+        >
+          {message.sender}
+        </div>
+        <p
+          className={`
+        inline-block min-w-[150px] border-2 rounded-xl p-3 relative break-words
       `}
-      >
-        {message.text}
-      </p>
+        >
+          {message.text}
+        </p>
+      </div>
     </div>
   );
 }
