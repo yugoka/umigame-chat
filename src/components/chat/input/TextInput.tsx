@@ -34,6 +34,7 @@ export default function TextInput({
           placeholder={isWaiting ? "少々お待ちください..." : "ここに質問を入力"}
           onChange={(e) => setInputText(e.target.value)}
           value={inputText}
+          autoComplete="off"
         />
       </form>
     </div>
