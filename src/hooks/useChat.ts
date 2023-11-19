@@ -32,7 +32,16 @@ export const useChat = () => {
   // メッセージ送信 ＆ 返答を待つ
   const send = async (newMessage: NewMessage) => {
     try {
-      if (!isWaiting) {
+      // ネタバレ機能
+      if (newMessage.text.includes("ギブアップ")) {
+        addMessage(newMessage);
+        addMessage({
+          sender: "ai",
+          type: "text",
+          text: questionContext.truth,
+          createdAt: new Date(),
+        });
+      } else if (!isWaiting) {
         const message = addMessage(newMessage);
         setIsWaiting(true);
         const responseMessage = await getResponse(message);
