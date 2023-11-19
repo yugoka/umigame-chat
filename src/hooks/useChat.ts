@@ -76,7 +76,9 @@ export const useChat = () => {
   };
 
   const getQuestionContext = async (): Promise<QuestionContext> => {
-    const response = await fetch("/api/new-question");
+    const response = await fetch("/api/new-question", {
+      cache: "no-store",
+    });
     const data = await response.json();
     return data;
   };
