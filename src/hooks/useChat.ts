@@ -1,6 +1,5 @@
 import { ChatMessage, NewMessage } from "@/types/chat";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 import React from "react";
 import { QuestionContext } from "@/types/question";
 
@@ -66,20 +65,20 @@ export const useChat = () => {
   };
 
   const getResponse = async (message: ChatMessage) => {
-    const response = await axios.get("/api/chat", {
-      params: {
-        text: message.text,
-        question: questionContext.question,
-        truth: questionContext.truth,
-      },
+    const query_params = new URLSearchParams({
+      text: message.text,
+      question: questionContext.question,
+      truth: questionContext.truth,
     });
-
-    return response.data;
+    const response = await fetch("/api/chat?" + query_params);
+    const data = await response.json();
+    return data;
   };
 
   const getQuestionContext = async (): Promise<QuestionContext> => {
-    const response = await axios.get("/api/new-question");
-    return response.data;
+    const response = await fetch("/api/new-question");
+    const data = await response.json();
+    return data;
   };
 
   // 最初の1メッセージ
