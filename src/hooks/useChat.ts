@@ -16,7 +16,7 @@ export const useChat = () => {
       id: "first-message",
       sender: "ai",
       type: "text",
-      text: "問題文を生成しています...",
+      text: "上のボタンをクリックして問題を生成してください",
       createdAt: new Date(),
     },
   ]);
@@ -80,34 +80,30 @@ export const useChat = () => {
       cache: "no-store",
     });
     const data = await response.json();
+    console.log(data);
     return data;
   };
 
-  // 最初の1メッセージ
-  React.useEffect(() => {
-    let ignore = false;
+  const start = async () => {
+    try {
+      setMessages([]);
+      setIsWaiting(true);
 
-    setIsWaiting(true);
+      const questionContext = await getQuestionContext();
+      setQuestionContext(questionContext);
+      addMessage({
+        type: "text",
+        sender: "ai",
+        text: questionContext.question,
+        createdAt: new Date(),
+      });
+      setIsWaiting(false);
+    } catch (e) {
+      console.error(e);
+      addMessage(ERROR_MESSAGE);
+      setIsWaiting(false);
+    }
+  };
 
-    getQuestionContext().then((questionContext) => {
-      if (!ignore) {
-        addMessage({
-          sender: "ai",
-          type: "text",
-          text: questionContext.question,
-          createdAt: new Date(),
-        });
-        setQuestionContext(questionContext);
-        setIsWaiting(false);
-        console.log("quesiton: ", questionContext.question);
-        console.log("truth: ", questionContext.truth);
-      }
-    });
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  return { send, messages, isWaiting };
+  return { start, send, messages, isWaiting };
 };

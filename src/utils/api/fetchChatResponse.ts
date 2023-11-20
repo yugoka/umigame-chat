@@ -17,6 +17,7 @@ export const fetchChatResponse = async (
         model: CHATGPT_MODEL_NAME,
         messages,
       }),
+      cache: "no-store",
     };
 
     const response = await fetch(url, requestOptions);
