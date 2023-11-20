@@ -43,5 +43,3 @@ export async function GET(request: NextRequest) {
     throw new Error(`${e}`);
   }
 }
-
-export const revalidate = 0;
