@@ -34,3 +34,5 @@ export async function GET(request: NextRequest) {
   };
   return NextResponse.json(responseMessage);
 }
+
+export const revalidate = 0;
