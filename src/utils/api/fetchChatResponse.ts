@@ -7,7 +7,7 @@ export const fetchChatResponse = async (
   messages: ChatGPTMessage[]
 ): Promise<string> => {
   try {
-    const requestOptions = {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,9 +18,7 @@ export const fetchChatResponse = async (
         messages,
       }),
       cache: "no-store",
-    };
-
-    const response = await fetch(url, requestOptions);
+    });
     const data = await response.json();
     return data.choices[0].message.content;
   } catch (e) {
